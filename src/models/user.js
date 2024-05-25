@@ -10,8 +10,18 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
-    }
+      // Muchos a uno
+      User.belongsTo(models.Role, {
+         as: "roles",
+         foreignKey: "role_id",
+      });
+
+      // uno a Muchos
+      User.hasMany(models.Appointment, {
+         as: "appointments",
+         foreignKey: "user_id",
+      });
+   }
   }
   User.init({
     first_name: DataTypes.STRING,
