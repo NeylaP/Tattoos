@@ -12,7 +12,7 @@ module.exports = {
       service_name: {
         type: Sequelize.STRING
       },
-      descripcion: {
+      description: {
         type: Sequelize.TEXT
       },
       createdAt: {
