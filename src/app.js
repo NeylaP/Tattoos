@@ -1,7 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const sequelize = require("./database/db");
-// const apiRoutes = require("./routes");
+const apiRoutes = require("./routes");
 
 dotenv.config();
 
@@ -19,7 +19,8 @@ app.get("/api/healthy", (req, res) => {
 });
 
 // Register API routes
-// app.use("/api", apiRoutes);
+console.log('Hola'+apiRoutes);
+app.use("/api", apiRoutes);
 
 sequelize
    .authenticate()
