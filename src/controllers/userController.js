@@ -1,4 +1,4 @@
-const { User, Loan, Book, FavoriteBook } = require("../models");
+const { User, Role } = require("../models");
 const bcrypt = require("bcrypt");
 const userController = {};
 
@@ -24,10 +24,17 @@ userController.getAll = async (req, res) => {
 };
 
 userController.getByEmail = async (req, res) => {
-    const userEmail = req.params.email;
+    console.log(req.query);
+    const userEmail = req.query.email;
     console.log(userEmail);
     try {
         const user = await User.findOne({
+            include: [
+                {
+                   model: Role,
+                   as: "role",
+                },
+             ],
             where: {
                 email: userEmail,
             },

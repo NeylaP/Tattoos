@@ -2,7 +2,12 @@ const express = require("express");
 const router = express.Router();
 const ctrl = require("../controllers/userController");
 
-router.get("/", ctrl.getAll);
-router.get("/:email", ctrl.getByEmail);
-
+router.get("/", (req, res, next) => {
+    // Si el parámetro de consulta 'email' está presente, dirigir la solicitud al metodo getByEmail
+    if (req.query.email) {
+      return ctrl.getByEmail(req, res, next);
+    }
+    // Si no hay parámetro 'email', dirigir la solicitud al metodo getAll
+    return ctrl.getAll(req, res, next);
+  });
 module.exports = router;

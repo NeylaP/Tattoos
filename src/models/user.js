@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // Muchos a uno
       User.belongsTo(models.Role, {
-         as: "roles",
+         as: "role",
          foreignKey: "role_id",
       });
 
