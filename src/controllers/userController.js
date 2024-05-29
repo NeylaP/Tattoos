@@ -24,9 +24,7 @@ userController.getAll = async (req, res) => {
 };
 
 userController.getByEmail = async (req, res) => {
-    console.log(req.query);
     const userEmail = req.query.email;
-    console.log(userEmail);
     try {
         const user = await User.findOne({
             include: [
@@ -61,4 +59,79 @@ userController.getByEmail = async (req, res) => {
     }
 };
 
+userController.update = async (req, res) => {
+    const userId = req.params.id;
+    const { password, role_id, ...restUserData } = req.body;
+ 
+    try {
+        if (req.body && Object.keys(req.body).length === 0) {
+            return res.status(404).json({
+                success: true,
+                message: "Invalid data",
+             });
+         }
+       const userToUpdate = await User.findByPk(userId);
+ 
+       if (!userToUpdate) {
+          return res.status(404).json({
+             success: true,
+             message: "User not found",
+          });
+       }
+ 
+       if (password) {
+          const hashedPassword = bcrypt.hashSync(password, 10);
+          userToUpdate.password = hashedPassword;
+       }
+ 
+       userToUpdate.set({
+          ...userToUpdate,
+          ...restUserData,
+       });
+ 
+       await userToUpdate.save();
+ 
+       res.status(200).json({
+          success: true,
+          message: "User updated successfully",
+       });
+    } catch (error) {
+       res.status(500).json({
+          success: false,
+          message: "Error updating user",
+          error: error.message,
+       });
+    }
+ };
+
+ userController.delete = async (req, res) => {
+    const userId = req.params.id;
+ 
+    try {
+       const deleteResult = await User.destroy({
+          where: {
+             id: userId,
+          },
+       });
+ 
+       if (deleteResult === 0) {
+          return res.status(404).json({
+             success: true,
+             message: "User not found",
+          });
+       }
+ 
+       res.status(200).json({
+          success: true,
+          message: "User deleted successfully",
+       });
+    } catch (error) {
+       res.status(500).json({
+          success: false,
+          message: "Error deleting user",
+          error: error.message,
+       });
+    }
+ };
+ 
 module.exports = userController;
