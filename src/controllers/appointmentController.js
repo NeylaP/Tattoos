@@ -2,6 +2,36 @@ const { where } = require("sequelize");
 const { Appointment } = require("../models");
 const appointmentController = {};
 
+appointmentController.create = async (req, res) => {
+    const { appointment_date, user_id, service_id } = req.body;
+ 
+    try {
+       if (!appointment_date || !user_id || !service_id) {
+          return res.status(400).json({
+             success: true,
+             message: "Invalid appointment date, user or service",
+          });
+       }
+ 
+       await Appointment.create({
+            appointment_date,
+            user_id,
+            service_id,
+       });
+ 
+       res.status(200).json({
+          success: true,
+          message: "Appointment created successfully",
+       });
+    } catch (error) {
+       res.status(500).json({
+          success: false,
+          message: "Error creating Appointment",
+          error: error.message,
+       });
+    }
+ };
+
 appointmentController.getMyAppointments = async (req, res) => {
     try {
         const appointments = await Appointment.findAll({
@@ -52,79 +82,74 @@ appointmentController.getById = async (req, res) => {
     }
 };
 
-// userController.update = async (req, res) => {
-//     const userId = req.params.id;
-//     const { password, role_id, ...restUserData } = req.body;
+appointmentController.update = async (req, res) => {
+    const appointmentId = req.params.id;
+    const { ...restAppointmentData } = req.body;
  
-//     try {
-//         if (req.body && Object.keys(req.body).length === 0) {
-//             return res.status(404).json({
-//                 success: true,
-//                 message: "Invalid data",
-//              });
-//          }
-//        const userToUpdate = await User.findByPk(userId);
+    try {
+        if (req.body && Object.keys(req.body).length === 0) {
+            return res.status(404).json({
+                success: true,
+                message: "Invalid data",
+             });
+         }
+       const appointmentToUpdate = await Appointment.findByPk(appointmentId);
  
-//        if (!userToUpdate) {
-//           return res.status(404).json({
-//              success: true,
-//              message: "User not found",
-//           });
-//        }
+       if (!appointmentToUpdate) {
+          return res.status(404).json({
+             success: true,
+             message: "Appointment not found",
+          });
+       }
  
-//        if (password) {
-//           const hashedPassword = bcrypt.hashSync(password, 10);
-//           userToUpdate.password = hashedPassword;
-//        }
+       appointmentToUpdate.set({
+          ...appointmentToUpdate,
+          ...restAppointmentData,
+       });
  
-//        userToUpdate.set({
-//           ...userToUpdate,
-//           ...restUserData,
-//        });
+       await appointmentToUpdate.save();
  
-//        await userToUpdate.save();
- 
-//        res.status(200).json({
-//           success: true,
-//           message: "User updated successfully",
-//        });
-//     } catch (error) {
-//        res.status(500).json({
-//           success: false,
-//           message: "Error updating user",
-//           error: error.message,
-//        });
-//     }
-//  };
+       res.status(200).json({
+          success: true,
+          message: "Appointment updated successfully",
+       });
+    } catch (error) {
+       res.status(500).json({
+          success: false,
+          message: "Error updating Appointment",
+          error: error.message,
+       });
+    }
+};
 
-//  userController.delete = async (req, res) => {
-//     const userId = req.params.id;
+appointmentController.delete = async (req, res) => {
+    const appointmentId = req.params.id;
  
-//     try {
-//        const deleteResult = await User.destroy({
-//           where: {
-//              id: userId,
-//           },
-//        });
+    try {
+       const deleteResult = await Appointment.destroy({
+          where: {
+             id: appointmentId,
+          },
+       });
  
-//        if (deleteResult === 0) {
-//           return res.status(404).json({
-//              success: true,
-//              message: "User not found",
-//           });
-//        }
+       if (deleteResult === 0) {
+          return res.status(404).json({
+             success: true,
+             message: "Appointment not found",
+          });
+       }
  
-//        res.status(200).json({
-//           success: true,
-//           message: "User deleted successfully",
-//        });
-//     } catch (error) {
-//        res.status(500).json({
-//           success: false,
-//           message: "Error deleting user",
-//           error: error.message,
-//        });
-//     }
-//  };
+       res.status(200).json({
+          success: true,
+          message: "Appointment deleted successfully",
+       });
+    } catch (error) {
+       res.status(500).json({
+          success: false,
+          message: "Error deleting appointment",
+          error: error.message,
+       });
+    }
+};
  
 module.exports = appointmentController;
