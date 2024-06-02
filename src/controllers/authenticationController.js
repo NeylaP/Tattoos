@@ -40,12 +40,10 @@ authController.register = async (req, res) => {
    }
 };
 
-
 authController.login = async (req, res) => {
    try {
       const { email, password } = req.body;
 
-      // Validate email and password
       if (!email || !password) {
          return res.status(400).json({
             success: true,
