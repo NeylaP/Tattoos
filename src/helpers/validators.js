@@ -4,7 +4,17 @@ const emailValidator = (email) => {
 };
 
 
+const dateValidator = (date) => {
+   const AppointmentDate = new Date(date);
+   const CurrentDate = new Date();
+   if (AppointmentDate < CurrentDate) {
+      return false;
+   }
+   return true;
+};
+
 
 module.exports = {
    emailValidator,
+   dateValidator
 };

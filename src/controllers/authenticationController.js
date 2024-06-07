@@ -16,6 +16,13 @@ authController.register = async (req, res) => {
          });
       }
 
+      
+      if(validateAppointment(email)){
+         return res.status(400).json({
+            success: true,
+            message: "A user with this email already exists",
+         });
+      };
       const hashedPassword = bcrypt.hashSync(password, 10);
 
       const user = await User.create({
@@ -98,4 +105,13 @@ authController.login = async (req, res) => {
    }
 };
 
+validateUser = async (email) => {
+   const users = await User.findOne({
+      where: {
+         email: email
+      }
+   });
+
+   return users != null; 
+};
 module.exports = authController;
