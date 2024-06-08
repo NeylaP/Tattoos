@@ -1,7 +1,6 @@
 module.exports = (...allowedRoles) => {
    return (req, res, next) => {
       const userRoleName = req.tokenData.userRoleName;
-      console.log(userRoleName);
       // Roles that always have access
       const adminGroupRoles = ["admin"];
 

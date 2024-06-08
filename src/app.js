@@ -19,7 +19,6 @@ app.get("/api/healthy", (req, res) => {
 });
 
 // Register API routes
-console.log('Hola'+apiRoutes);
 app.use("/api", apiRoutes);
 
 sequelize

@@ -76,7 +76,6 @@ appointmentController.getMyAppointments = async (req, res) => {
 
 appointmentController.getById = async (req, res) => {
    const appointmentId = req.params.id;
-   console.log(appointmentId);
    try {
       const appointment = await Appointment.findByPk(appointmentId, {
          attributes: { exclude: ["createdAt", "updatedAt", "user_id", "service_id", "tattoo_artist_id"] },
