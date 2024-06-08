@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // Muchos a uno
       Appointment.belongsTo(models.User, {
-        as: "users",
+        as: "user",
         foreignKey: "user_id",
       });
 
@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
 
       // Muchos a uno
       Appointment.belongsTo(models.User, {
-        as: "tattoo_artist",
+        as: "tattoo_artists",
         foreignKey: "tattoo_artist_id",
       });
     }

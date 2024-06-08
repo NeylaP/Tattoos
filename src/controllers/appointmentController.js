@@ -1,5 +1,5 @@
 const { Op } = require("sequelize");
-const { Appointment } = require("../models");
+const { Appointment, Service, User } = require("../models");
 const appointmentController = {};
 const { dateValidator } = require("../helpers/validators");
 
@@ -14,7 +14,7 @@ appointmentController.create = async (req, res) => {
          });
       }
 
-      if(validateAppointment(user_id)){
+      if (validateAppointment(user_id)) {
          return res.status(400).json({
             success: true,
             message: "Already has an appointment pending",
@@ -44,8 +44,20 @@ appointmentController.getMyAppointments = async (req, res) => {
    try {
       const userId = req.tokenData.userId;
       const appointments = await Appointment.findAll({
-         where: { user_id: userId },
-         attributes: { exclude: ["createdAt", "updatedAt"] },
+         where: { user_id: 4 },
+         attributes: { exclude: ["createdAt", "updatedAt", "user_id", "service_id", "tattoo_artist_id"] },
+         include: [
+            {
+               model: Service,
+               as: "services",
+               attributes: { exclude: ["createdAt", "updatedAt"] },
+            },
+            {
+               model: User,
+               as: "tattoo_artists",
+               attributes: { exclude: ["createdAt", "updatedAt", "role_id", "email", "password"] },
+            },
+         ],
       });
 
       res.status(200).json({
@@ -67,25 +79,42 @@ appointmentController.getById = async (req, res) => {
    console.log(appointmentId);
    try {
       const appointment = await Appointment.findByPk(appointmentId, {
-         attributes: { exclude: ["createdAt", "updatedAt"] },
+         attributes: { exclude: ["createdAt", "updatedAt", "user_id", "service_id", "tattoo_artist_id"] },
+         include: [
+            {
+               model: User,
+               as: "user",
+               attributes: { exclude: ["createdAt", "updatedAt", "role_id","password"] },
+            },
+            {
+               model: Service,
+               as: "services",
+               attributes: { exclude: ["createdAt", "updatedAt"] },
+           },
+           {
+            model: User,
+            as: "tattoo_artists",
+            attributes: { exclude: ["createdAt", "updatedAt", "role_id", "email","password"] },
+            },
+        ],
       });
       if (!appointment) {
          return res.status(404).json({
             success: true,
-            message: "User not found",
+            message: "appointment not found",
             data: appointmentId
          });
       }
 
       res.status(200).json({
          success: true,
-         message: "User retreived successfully",
+         message: "Appointment retreived successfully",
          data: appointment,
       });
    } catch (error) {
       res.status(500).json({
          success: false,
-         message: "Error retreinving user",
+         message: "Error retreinving appointment",
          error: error.message,
       });
    }
@@ -186,7 +215,7 @@ validateAppointment = async (user_id) => {
       }
    });
 
-   return appointments != null; 
+   return appointments != null;
 };
 
 module.exports = appointmentController;
