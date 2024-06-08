@@ -21,6 +21,10 @@ module.exports = {
           id: 3,
           name: "User"
         },
+        {
+          id: 4,
+          name: "Tattoo Artist"
+        },
       ],
       {}
     );

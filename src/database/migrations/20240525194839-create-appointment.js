@@ -18,6 +18,10 @@ module.exports = {
       service_id: {
         type: Sequelize.INTEGER
       },
+      tattoo_artist_id: {
+        allowNull: true,
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

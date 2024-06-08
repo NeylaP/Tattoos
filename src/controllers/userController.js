@@ -186,4 +186,34 @@ userController.updateUserProfile = async (req, res) => {
    }
 };
 
+userController.getTattooArtist = async (req, res) => {
+   try {
+       const user = await User.findAll({
+           where: {
+               role_id: 4,
+           },
+           attributes: { exclude: ["createdAt", "updatedAt", "password", "role_id", "email"] },
+       });
+
+       if (!user) {
+           return res.status(404).json({
+               success: true,
+               message: "No tattoo artists",
+           });
+       }
+
+       res.status(200).json({
+           success: true,
+           message: "Users retreived successfully",
+           data: user,
+       });
+   } catch (error) {
+       res.status(500).json({
+           success: false,
+           message: "Error retreinving user",
+           error: error.message,
+       });
+   }
+};
+
 module.exports = userController;

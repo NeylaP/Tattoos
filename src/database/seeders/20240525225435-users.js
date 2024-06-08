@@ -54,7 +54,7 @@ module.exports = {
           email: "dfernandez@example.com",
           password: bcrypt.hashSync(plainPassword, 10),
           is_active: true,
-          role_id: 3
+          role_id: 4
         },
         {
           id: 6,
@@ -90,7 +90,7 @@ module.exports = {
           email: "ypayares@example.com",
           password: bcrypt.hashSync(plainPassword, 10),
           is_active: true,
-          role_id: 3
+          role_id: 4
         },
         {
           id: 10,
