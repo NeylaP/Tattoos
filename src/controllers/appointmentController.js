@@ -4,7 +4,7 @@ const appointmentController = {};
 const { dateValidator } = require("../helpers/validators");
 
 appointmentController.create = async (req, res) => {
-   const { appointment_date, user_id, service_id } = req.body;
+   const { appointment_date, user_id, service_id, tattoo_artist_id } = req.body;
 
    try {
       if (!appointment_date || !user_id || !service_id || !dateValidator(appointment_date)) {
@@ -14,7 +14,16 @@ appointmentController.create = async (req, res) => {
          });
       }
 
-      if (validateAppointment(user_id)) {
+      const appointments = await Appointment.findOne({
+         where: {
+            user_id: user_id,
+            appointment_date: {
+               [Op.gt]: new Date() // Op.gt es el mayor que
+            }
+         }
+      });
+
+      if (appointments != null) {
          return res.status(400).json({
             success: true,
             message: "Already has an appointment pending",
@@ -25,6 +34,7 @@ appointmentController.create = async (req, res) => {
          appointment_date,
          user_id,
          service_id,
+         tattoo_artist_id
       });
 
       res.status(200).json({
@@ -202,19 +212,6 @@ appointmentController.delete = async (req, res) => {
          error: error.message,
       });
    }
-};
-
-validateAppointment = async (user_id) => {
-   const appointments = await Appointment.findOne({
-      where: {
-         user_id: user_id,
-         appointment_date: {
-            [Op.gt]: new Date() // Op.gt es el mayor que
-         }
-      }
-   });
-
-   return appointments != null;
 };
 
 module.exports = appointmentController;
