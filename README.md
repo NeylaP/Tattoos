@@ -46,7 +46,7 @@ El proyecto consiste en desarrollar una API RESTful para la gestión citas en un
 | GET    | `/api/users?email=ejemplo@ejemplo.com` | Filtrar usuario por email    | Super Admin |
 | DELETE | `/api/users/:id`                       | Eliminar usuario             | Super Admin |
 | PUT    | `/api/users/:id/role`                  | Cambio de role               | Super Admin |
-| GET    | `/api/users/tattoo_artist`             | Listara Todos los tatuadores | Super Admin |
+| GET    | `/api/users/tattoo_artist`             | Listara Todos los tatuadores |             |
 
 
 ### Citas
