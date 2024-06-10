@@ -4,7 +4,8 @@ const appointmentController = {};
 const { dateValidator } = require("../helpers/validators");
 
 appointmentController.create = async (req, res) => {
-   const { appointment_date, user_id, service_id, tattoo_artist_id } = req.body;
+   const { appointment_date,service_id, tattoo_artist_id } = req.body;
+   const user_id = req.tokenData.userId;
 
    try {
       if (!appointment_date || !user_id || !service_id || !dateValidator(appointment_date)) {
