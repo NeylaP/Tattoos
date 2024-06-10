@@ -64,9 +64,9 @@ El proyecto consiste en desarrollar una API RESTful para la gestión citas en un
 | Método | URI                 | Acción                | Rol         |
 |--------|---------------------|-----------------------|-------------|
 | GET    | `/api/services`     | Ver mis propias citas |             |
-| POST   | `/api/services`     | Crear cita            | Super Admin |
-| PUT    | `/api/services/:id` | Actualizar mi cita    | Super Admin |
-| GET    | `/api/services/:id` | Recuperar cita        | Super Admin |
+| POST   | `/api/services`     | Crear servicio        | Super Admin |
+| PUT    | `/api/services/:id` | Actualizar servicio   | Super Admin |
+| GET    | `/api/services/:id` | Recuperar servicio    | Super Admin |
 
 ## <a id="database">Base de Datos</a>
 ![Database](./img/Database.png)
