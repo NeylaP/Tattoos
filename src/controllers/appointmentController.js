@@ -44,7 +44,7 @@ appointmentController.getMyAppointments = async (req, res) => {
    try {
       const userId = req.tokenData.userId;
       const appointments = await Appointment.findAll({
-         where: { user_id: 4 },
+         where: { user_id: userId },
          attributes: { exclude: ["createdAt", "updatedAt", "user_id", "service_id", "tattoo_artist_id"] },
          include: [
             {
