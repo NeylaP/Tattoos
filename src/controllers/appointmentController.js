@@ -10,7 +10,7 @@ appointmentController.create = async (req, res) => {
    try {
       if (!appointment_date || !user_id || !service_id || !dateValidator(appointment_date)) {
          return res.status(400).json({
-            success: true,
+            success: false,
             message: "Invalid appointment date, user or service",
          });
       }
@@ -26,7 +26,7 @@ appointmentController.create = async (req, res) => {
 
       if (appointments != null) {
          return res.status(400).json({
-            success: true,
+            success: false,
             message: "Already has an appointment pending",
          });
       };
@@ -115,7 +115,7 @@ appointmentController.getById = async (req, res) => {
       });
       if (!appointment) {
          return res.status(404).json({
-            success: true,
+            success: false,
             message: "appointment not found",
             data: appointmentId
          });
@@ -143,21 +143,21 @@ appointmentController.update = async (req, res) => {
 
       if (myAppointment === null) {
          return res.status(404).json({
-            success: true,
+            success: false,
             message: "No appointments",
          });
       }
 
       if (req.body && Object.keys(req.body).length === 0) {
          return res.status(404).json({
-            success: true,
+            success: false,
             message: "Invalid data",
          });
       }
 
       if (req.body.appointment_date && !dateValidator(req.body.appointment_date)) {
          return res.status(404).json({
-            success: true,
+            success: false,
             message: "Invalid date",
          });
       }
@@ -165,7 +165,7 @@ appointmentController.update = async (req, res) => {
 
       if (!appointmentToUpdate) {
          return res.status(404).json({
-            success: true,
+            success: false,
             message: "Appointment not found",
          });
       }
@@ -202,7 +202,7 @@ appointmentController.delete = async (req, res) => {
 
       if (deleteResult === 0) {
          return res.status(404).json({
-            success: true,
+            success: false,
             message: "Appointment not found",
          });
       }

@@ -24,7 +24,7 @@ authController.register = async (req, res) => {
       
       if(users != null){
          return res.status(400).json({
-            success: true,
+            success: false,
             message: "A user with this email already exists",
          });
       };
@@ -77,7 +77,7 @@ authController.login = async (req, res) => {
       if (!user) {
          return res
             .status(400)
-            .json({ success: true, message: "Bad credentials" });
+            .json({ success: false, message: "Bad credentials" });
       }
 
       const isPasswordValid = bcrypt.compareSync(password, user.password);
@@ -85,7 +85,7 @@ authController.login = async (req, res) => {
       if (!isPasswordValid) {
          return res
             .status(400)
-            .json({ success: true, message: "Bad credentials" });
+            .json({ success: false, message: "Bad credentials" });
       }
 
       const tokenPayload = {

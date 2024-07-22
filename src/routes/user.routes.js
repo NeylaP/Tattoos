@@ -6,7 +6,7 @@ const authorize = require("../middlewares/authorize");
 
 router.get("/profile", auth, ctrl.getUserProfile);
 router.put("/profile", auth, ctrl.updateUserProfile);
-router.get("/tattoo_artist", auth, ctrl.getTattooArtist);
+router.get("/tattoo_artist", ctrl.getTattooArtist);
 router.get("/", auth, authorize("Super Admin"), (req, res, next) => {
     // Si el parámetro de consulta 'email' está presente, se dirige la solicitud al metodo getByEmail
     if (req.query.email) {
