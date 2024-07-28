@@ -5,6 +5,7 @@ const auth = require("../middlewares/auth");
 const authorize = require("../middlewares/authorize");
 
 router.get("/profile", auth, ctrl.getUserProfile);
+router.get("/all_roles", auth, ctrl.getAllRoles);
 router.put("/profile", auth, ctrl.updateUserProfile);
 router.get("/tattoo_artist", ctrl.getTattooArtist);
 router.get("/", auth, authorize("Super Admin"), (req, res, next) => {

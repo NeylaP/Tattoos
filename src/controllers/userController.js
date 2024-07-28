@@ -71,14 +71,7 @@ userController.update = async (req, res) => {
    const userId = req.params.id;
    const userRole = req.params.role;
    try {
-      if (req.body && Object.keys(req.body).length === 0) {
-         return res.status(404).json({
-            success: true,
-            message: "Invalid data",
-         });
-      }
       const userToUpdate = await User.findByPk(userId);
-
       if (!userToUpdate) {
          return res.status(404).json({
             success: true,
@@ -226,6 +219,26 @@ userController.getTattooArtist = async (req, res) => {
       res.status(500).json({
          success: false,
          message: "Error retreinving user",
+         error: error.message,
+      });
+   }
+};
+
+userController.getAllRoles = async (req, res) => {
+   try {
+      const roles = await Role.findAll({
+         attributes: { exclude: ["createdAt", "updatedAt"] }
+     });
+
+      res.status(200).json({
+         success: true,
+         message: "Roles retreived successfully",
+         data: roles,
+      });
+   } catch (error) {
+      res.status(500).json({
+         success: false,
+         message: "Error retreiving roles",
          error: error.message,
       });
    }
